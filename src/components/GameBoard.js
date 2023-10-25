@@ -13,7 +13,7 @@ import { calculateNewPosition } from './CardMover.js';
 import login from "./Login.js";
 import PlayerWallet from "./PlayerWallet.js";
 import TravelLandBank from './TravelLandBank.js'
-import { useWallet} from "./PlayerWallet.js";
+import { useWallet} from "../WalletProvider.js";
 import { deductFromWallet } from "./PlayerWallet.js";
 import { WalletProvider } from "../WalletProvider.js";
 
