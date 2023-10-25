@@ -14,18 +14,17 @@ const App = () => {
     };
 
     return (
-        <WalletProvider> {/* Įkeliami visi programos turinio komponentai į WalletProvider */}
-            <div className="app-container">
-                {!gameStarted ? (
-                    <Login onStartGame={() => setGameStarted(true)} />
-                ) : (
-                    <>
-                    < PlayerWallet balance={playerBalance} onBalanceChange={handleBalanceChange} />
-                        <GameBoard />
-                    </>
-                )}
-            </div>
-        </WalletProvider>
+        <div className="app-container">
+            {!gameStarted ? (
+                <Login onStartGame={() => setGameStarted(true)} />
+            ) : (
+                <WalletProvider> {/* Įkeliami visi programos turinio komponentai į WalletProvider */}
+                    <PlayerWallet balance={playerBalance} onBalanceChange={handleBalanceChange} />
+                    <GameBoard />
+                </WalletProvider>
+            )}
+        </div>
+
     );
 };
 

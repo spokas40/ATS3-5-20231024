@@ -15,6 +15,7 @@ import PlayerWallet from "./PlayerWallet.js";
 import TravelLandBank from './TravelLandBank.js'
 import { useWallet} from "./PlayerWallet.js";
 import { deductFromWallet } from "./PlayerWallet.js";
+import { WalletProvider } from "../WalletProvider.js";
 
 const GameBoard = ({ deductAmountFromWallet, depositToBank }) => {
     const [playerBalance, setPlayerBalance] = useState(100);
