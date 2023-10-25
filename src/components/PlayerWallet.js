@@ -1,12 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-
-// Sukuriame kontekstą, kuris bus naudojamas perduoti būseną ir funkcijas kitoms komponentėms
-const WalletContext = createContext();
+import { WalletContext } from "../WalletProvider.js";
 
 // Sukuriame pasirinktinį kablį, kad lengviau naudotis kontekstu kitose komponentėse
 export function useWallet() {
     const context = useContext(WalletContext);
-    if (!context) {
+    if (context === undefined) {
         throw new Error('useWallet must be used within a WalletProvider');
     }
     return context;

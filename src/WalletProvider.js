@@ -4,13 +4,8 @@ export const WalletContext = createContext();
 export const WalletProvider = ({ children }) => {
     const [balance, setBalance] = useState(100); // keiskite pradinę reikšmę pagal jūsų poreikius
 
-    const walletObject = {
-        balance,
-        setBalance,
-    }
-
     return (
-        <WalletContext.Provider value={ walletObject}>
+        <WalletContext.Provider value={{ balance, setBalance}}>
             {children}
         </WalletContext.Provider>
     );
