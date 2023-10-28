@@ -35,7 +35,7 @@ const LoginContainer = () => {
             <h1>"Business Way"</h1>
             <p>Please choose one of the four playing cards:</p>
             <div className="card-row">
-                <div className={`card ${selectedCard === "hors" ? "selected" : ""}`} onClick={() => handleCardClick("hors")}>
+                <div className={`card ${selectedCard === "horse" ? "selected" : ""}`} onClick={() => handleCardClick("hors")}>
                     <img className="cardsPicture" src={horseImage} alt="hors" />
                 </div>
                 <div className={`card ${selectedCard === "elephant" ? "selected" : ""}`} onClick={() => handleCardClick("elephant")}>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Login from './components/Login.js';
 import GameBoard from './components/GameBoard.js';
 import PlayerWallet from './components/PlayerWallet.js';
-import { WalletProvider } from './WalletProvider.js'
+import { WalletProvider } from './WalletProvider.js';
 import './App.css'; // importuojame stilių
 
 const App = () => {

@@ -33,9 +33,9 @@ const BusinessBoard = ({ playerBalance, deductFromWallet, depositToBank }) => {
     ]);
 
     const handleBuyBusiness = (business) => {
-        if (playerBalance >= businessData.buyPrice) {
-            deductFromWallet(businessData.buyPrice);
-            depositToBank(businessData.buyPrice);
+        if (playerBalance >= business.buyPrice) {
+            deductFromWallet(business.buyPrice);
+            depositToBank(business.buyPrice);
             setCurrentBusiness({
                 ...businessData,
                 owned: true
@@ -47,7 +47,7 @@ const BusinessBoard = ({ playerBalance, deductFromWallet, depositToBank }) => {
     };
 
     const handleSellBusiness = () => {
-        depositToBank(businessData.sellPrice);
+        depositToBank(currentBusiness.sellPrice);
         setCurrentBusiness({
             ...businessData,
             owned: false
