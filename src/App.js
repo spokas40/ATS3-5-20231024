@@ -3,28 +3,30 @@ import Login from './components/Login.js';
 import GameBoard from './components/GameBoard.js';
 import PlayerWallet from './components/PlayerWallet.js';
 import { WalletProvider } from './WalletProvider.js';
-import './App.css'; // importuojame stilių
+import './App.css';
 
 const App = () => {
     const [gameStarted, setGameStarted] = useState(false);
-    const [playerBalance, setPlayerBalance] = useState(100); // pradinis balansas gali būti bet koks
+    const [playerBalance, setPlayerBalance] = useState(100);
 
     const handleBalanceChange = (newBalance) => {
-        console.log(newBalance); // atliekami veiksmai su nauju balansu, pvz., atnaujinti būseną
+        console.log(newBalance);
     };
 
     return (
-        <div className="app-container">
-            {!gameStarted ? (
-                <Login onStartGame={() => setGameStarted(true)} />
-            ) : (
-                <WalletProvider> {/* Įkeliami visi programos turinio komponentai į WalletProvider */}
-                    <PlayerWallet balance={playerBalance} onBalanceChange={handleBalanceChange} />
-                    <GameBoard />
-                </WalletProvider>
-            )}
-        </div>
-
+        <WalletProvider>
+            <div className="app-container">
+                {!gameStarted ? (
+                    <Login onStartGame={() => setGameStarted(true)} />
+                 ) : (
+                    <>
+                         <PlayerWallet balance={playerBalance} onBalanceChange={handleBalanceChange}>
+                             <GameBoard />
+                        </PlayerWallet>
+                    </>
+                )}
+             </div>
+        </WalletProvider>
     );
 };
 

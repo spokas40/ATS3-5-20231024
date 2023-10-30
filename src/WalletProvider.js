@@ -1,12 +1,17 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 export const WalletContext = createContext();
 
 export const WalletProvider = ({ children }) => {
-    const [balance, setBalance] = useState(100); // keiskite pradinę reikšmę pagal jūsų poreikius
+    const [playerBalance, setPlayerBalance] = useState(100); // keiskite pradinę reikšmę pagal jūsų poreikius
+
+    const deductFromWallet = useCallback((amount) => {
+        const newBalance = playerBalance - amount;
+        setPlayerBalance(newBalance);
+    }, [playerBalance]);
 
     return (
-        <WalletContext.Provider value={{ balance, setBalance }}>
+        <WalletContext.Provider value={{ playerBalance, setPlayerBalance, deductFromWallet }}>
             {children}
         </WalletContext.Provider>
     );
