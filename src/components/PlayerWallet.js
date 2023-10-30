@@ -10,6 +10,8 @@ export function useWallet() {
     return context;
 }
 
+let deductFromWallet;
+
 // Pagrindinis komponentas, kuris valdo ir teikia piniginės būseną
 function PlayerWallet({ balance, onBalanceChange, children }) {
     // Lokalūs būsenos kintamieji ir atnaujinimo funkcijos
@@ -21,11 +23,13 @@ function PlayerWallet({ balance, onBalanceChange, children }) {
     }, [balance]);
 
     // Funkcija, kuri atima sumą iš piniginės ir informuoja išorę apie pakeitimus
-    const deductFromWallet = useCallback((amount) => {
+      deductFromWallet = useCallback((amount) => {
         const newBalance = playerBalance - amount;
         setPlayerBalance(newBalance);
         onBalanceChange(newBalance);
     }, [playerBalance, onBalanceChange]);
+
+
 
     // Konteksto teikėjas su reikalingomis reikšmėmis ir funkcijomis
     return (
@@ -45,5 +49,9 @@ function PlayerWallet({ balance, onBalanceChange, children }) {
     );
 }
 
+export { deductFromWallet };
+
 // Eksportuojame PlayerWallet, kad galėtume jį naudoti kitose dalyse programos
 export default PlayerWallet;
+
+

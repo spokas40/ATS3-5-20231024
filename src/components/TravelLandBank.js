@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 
-function TravelLandBank({ balance, depositToBank }) {
-    const [bankBalance, setBankBalance] = useState(0); // pradinis banko balansas
-    function depositToBank(amount) {
-        setBankBalance(prevBalance => prevBalance + amount);
-    }
+let globalBankBalance = 0;
+
+const internalDepositToBank = (amount) => {
+    globalBankBalance += amount;
+}
+
+function TravelLandBank({ balance }) {
+    const [bankBalance, setBankBalance] = useState(globalBankBalance);
 
     // Funkcija skirta pridėti Travelonus į banką
     const addToBank = (amount) => {
@@ -18,4 +21,5 @@ function TravelLandBank({ balance, depositToBank }) {
     );
 }
 
+export { internalDepositToBank as depositToBank };
 export default TravelLandBank;

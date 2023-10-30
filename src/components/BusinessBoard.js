@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import useGameActions from '../hooks/useGameActions.js';
+import {useWallet} from "../WalletProvider.js";
 
-const BusinessBoard = ({ playerBalance, deductFromWallet, depositToBank }) => {
+const BusinessBoard = ({ playerBalance }) => {
     const { buyBusiness: gameBuyBusiness, sellBusiness: gameSellBusiness, ownedBusinesses } = useGameActions();
     const [currentBusiness, setCurrentBusiness] = useState(null);
+    const { balance, deductFromWallet, depositToBank } = useWallet();
+
 
     const [businessData, setBusinessData] = useState([
         {id:1,
