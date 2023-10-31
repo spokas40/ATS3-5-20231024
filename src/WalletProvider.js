@@ -10,6 +10,12 @@ export const WalletProvider = ({ children }) => {
         setPlayerBalance(newBalance);
     }, [playerBalance]);
 
+    // Pridam depositToWallet veikimo tvarką
+    const depositToWallet = useCallback((amount) => {
+        const newBalance = playerBalance + amount;
+        setPlayerBalance(newBalance);
+    }, [playerBalance]);
+
     return (
         <WalletContext.Provider value={{ playerBalance, setPlayerBalance, deductFromWallet }}>
             {children}
