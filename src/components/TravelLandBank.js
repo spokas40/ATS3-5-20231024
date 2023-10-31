@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useContext, createContext } from "react";
 
-let globalBankBalance = 0;
+const BankContext = createContext();
 
-const internalDepositToBank = (amount) => {
-    globalBankBalance += amount;
-}
-
-function TravelLandBank({ balance }) {
-    const [bankBalance, setBankBalance] = useState(globalBankBalance);
+function TravelLandBank({ children }) {
+    const [bankBalance, setBankBalance] = useState(0);
 
     // Funkcija skirta pridėti Travelonus į banką
-    const addToBank = (amount) => {
+    const depositToBank = (amount) => {
         setBankBalance(prevBalance => prevBalance + amount);
     }
 
     return (
-        <div className="travelLandBank">
-            TravelLand Bank: {balance} Travelons
-        </div>
+        <BankContext.Provider value={{ bankBalance, depositToBank }}>
+            <div className="travelLandBank">
+                TravelLand Bank: {bankBalance} Travelons
+            </div>
+            {children}
+        </BankContext.Provider>
     );
 }
 
-export { internalDepositToBank as depositToBank };
+export const useBank = () => {
+    const context = useContext(BankContext);
+    if (!context) {
+        throw new Error("useBank must be used within TravelLandBank");
+    }
+    return context;
+};
+
 export default TravelLandBank;

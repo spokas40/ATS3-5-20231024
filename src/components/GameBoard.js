@@ -1,45 +1,31 @@
 import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import '../styles/styles.css';
 import DiceRoller from './DiceRoller.js';
 import CardMover from './CardMover.js';
-import LoginContainer from './Login-container.js';
 import BusinessBoard from './BusinessBoard.js';
 import horseImage from '../images/horse.png';
 import elephantImage from '../images/elephant-on-a-ball.png';
 import carriageImage from '../images/carriage.png';
 import ballonImage from '../images/ballon.png';
 import { calculateNewPosition } from './CardMover.js';
-import login from "./Login.js";
 import PlayerWallet from "./PlayerWallet.js";
-import TravelLandBank from './TravelLandBank.js'
-import { useWallet} from "../WalletProvider.js";
-import { deductFromWallet } from "./PlayerWallet.js";
-import { WalletProvider } from "../WalletProvider.js";
+import TravelLandBank, { useBank } from './TravelLandBank.js';
+import { useWallet } from "../WalletProvider.js";
 
-const GameBoard = ({ deductAmountFromWallet, depositToBank }) => {
-    const [playerBalance, setPlayerBalance] = useState(100);
-    const [bankBalance, setBankBalance] = useState(0);
-    const selectedCard = localStorage.getItem('selectedCard');
+const GameBoard = () => {
     const [playerPosition, setPlayerPosition] = useState(0); // Initial player card position
     const [diceValue, setDiceValue] = useState(0);
     const [ownedBusinesses, setOwnedBusinesses] = useState([]);
     const [currentBusiness, setCurrentBusiness] = useState(null);
-    const { balance, deductFromWallet } = useWallet()
-
-    const handleBalanceChange = (newBalance) => {
-        setPlayerBalance(newBalance);
-    };
-
-    function addToWallet(amount) {
-        setPlayerBalance(prevBalance => prevBalance + amount);
-    }
-
+    const selectedCard = localStorage.getItem('selectedCard');
+    const { balance, deductFromWallet } = useWallet();
+    const { depositToBank } = useBank();
 
     const handleBackToHome = () => {
         localStorage.removeItem('selectedCard');
         window.location.reload();
     };
+
     const renderSelectedCardImage = (selectedCard) => {
         const cardStyle = {
             width: '70px',
@@ -66,7 +52,7 @@ const GameBoard = ({ deductAmountFromWallet, depositToBank }) => {
         const newPosition = result.position;
 
         if (result.passedGo) {
-            addToWallet(50); // Pridedame 50 Travelon'ų
+            deductFromWallet(50); // Pridedame 50 Travelon'ų
         }
 
         moveCardToNewPosition(newPosition);
@@ -140,17 +126,15 @@ const GameBoard = ({ deductAmountFromWallet, depositToBank }) => {
                 depositToBank(5);
                 break;
 
-            // Čia bus pridedamos kitos sąlygos atitinkančios kitus žaidimo lentos langelius ir jų taisykles.
             default:
                 break;
         }
     }
 
-
     const moveCardToNewPosition = (newPosition) => {
         handleCardLanding(newPosition.toString());
         if (newPosition === 18 && playerPosition < 18) {
-            addToWallet(50); // Pridedame 50 Travelon'ų kai žaidėjas baigia ratą
+            deductFromWallet(50); // Pridedame 50 Travelon'ų kai žaidėjas baigia ratą
         }
         setPlayerPosition(newPosition);
 
@@ -163,7 +147,7 @@ const GameBoard = ({ deductAmountFromWallet, depositToBank }) => {
 
         // Sukuriame naują div elementą, kuriame yra CardMover komponentas
         const cardMoverContainer = document.createElement("div");
-        createRoot(cardMoverContainer).render(
+        cardMoverContainer.render(
             <CardMover
                 selectedCard={selectedCard}
                 diceValue={diceValue}
@@ -195,15 +179,14 @@ const GameBoard = ({ deductAmountFromWallet, depositToBank }) => {
                     {/* 2nd row */}
                     <div className="cell cell-with-border bankBuild" data-value="18"></div>
                     <div className="cell" data-value="100">
-                        <TravelLandBank balance={bankBalance} depositToBank={depositToBank} />
+                        <TravelLandBank />
                     </div>
                     <div className="cell" data-value="101">
-                        <PlayerWallet balance={balance} onBalabceChange={handleBalanceChange}>
-                        </PlayerWallet>
+                        <PlayerWallet balance={balance} />
                     </div>
                     <div className="cell" data-value="102">
                         <BusinessBoard
-                            playerBalance={playerBalance}
+                            playerBalance={balance}
                             deductFromWallet={deductFromWallet}
                             depositToBank={depositToBank}
                             businessType={currentBusiness}
