@@ -19,7 +19,7 @@ const GameBoard = () => {
     const [ownedBusinesses, setOwnedBusinesses] = useState([]);
     const [currentBusiness, setCurrentBusiness] = useState(null);
     const selectedCard = localStorage.getItem('selectedCard');
-    const { balance, deductFromWallet } = useWallet();
+    const { playerBalance, deductFromWallet } = useWallet();
     const { depositToBank } = useBank();
 
     const handleBackToHome = () => {
@@ -186,12 +186,11 @@ const GameBoard = () => {
                         <TravelLandBank />
                     </div>
                     <div className="cell" data-value="101">
-                        console.log(balance);
-                        <PlayerWallet balance={balance} />
+                        <PlayerWallet balance={playerBalance} />
                     </div>
                     <div className="cell" data-value="102">
                         <BusinessBoard
-                            playerBalance={balance}
+                            playerBalance={playerBalance}
                             deductFromWallet={deductFromWallet}
                             depositToBank={depositToBank}
                             businessType={currentBusiness}
