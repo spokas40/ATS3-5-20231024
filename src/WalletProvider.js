@@ -10,9 +10,7 @@ export const WalletProvider = ({ children }) => {
     };
 
     const depositToWallet = (amount) => {
-        console.log('Before deposit:', playerBalance);
         setPlayerBalance((prevBalance) => prevBalance + amount);
-        console.log('After deposit:', playerBalance);
     };
 
     return (

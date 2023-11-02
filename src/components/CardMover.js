@@ -18,7 +18,6 @@ export const calculateNewPosition = (currentPosition, diceValue) => {
 const CardMover = ({ selectedCard, currentPosition, diceValue, onCardMove, renderSelectedCardImage }) => {
     const handleMoveCard = () => {
         const newPosition = calculateNewPosition(currentPosition, diceValue);
-        console.log("Nauja kortelės padėtis", newPosition)
         onCardMove(newPosition);
     };
 

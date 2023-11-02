@@ -14,6 +14,11 @@ const App = () => {
         console.log(newBalance);
     };
 
+    const handleStartGame = () => {
+        console.log("Game is starting");
+        setGameStarted(true);
+    };
+
     return (
         <WalletProvider>
             <TravelLandBank>
@@ -21,7 +26,7 @@ const App = () => {
                     {!gameStarted ? (
                         <Login onStartGame={() => setGameStarted(true)} />
                     ) : (
-                        React.cloneElement(<GameBoard />, { playerBalance, handleBalanceChange })
+                        <GameBoard />
                     )}
                 </div>
             </TravelLandBank>

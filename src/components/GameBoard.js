@@ -13,6 +13,7 @@ import PlayerWallet from "./PlayerWallet.js";
 import TravelLandBank, { useBank } from './TravelLandBank.js';
 import BankBalanceDisplay from './BankBalanceDisplay.js';
 import { useWallet } from "../WalletProvider.js";
+import { WalletContext } from '../WalletProvider.js';
 
 const GameBoard = () => {
     const [playerPosition, setPlayerPosition] = useState(0); // Initial player card position
@@ -23,9 +24,6 @@ const GameBoard = () => {
     const { playerBalance, deductFromWallet, depositToWallet } = useWallet();
     const { depositToBank } = useBank();
 
-    useEffect(() => {
-        console.log('Updated player balance:', playerBalance);
-    }, [playerBalance]);
 
     const handleBackToHome = () => {
         localStorage.removeItem('selectedCard');
@@ -139,9 +137,7 @@ const GameBoard = () => {
 
     const moveCardToNewPosition = (newPosition) => {
         handleCardLanding(newPosition.toString());
-        console.log('New position:', newPosition, 'Player position:', playerPosition);
         if (newPosition >= 18 && playerPosition < 18) {
-            console.log('Triggering depositToWallet with 50');
             depositToWallet(50); // Pridedame 50 Travelon'ų kai žaidėjas baigia ratą
         }
         setPlayerPosition(newPosition);
