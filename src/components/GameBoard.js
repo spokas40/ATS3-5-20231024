@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../styles/styles.css';
 import DiceRoller from './DiceRoller.js';
@@ -20,8 +20,12 @@ const GameBoard = () => {
     const [ownedBusinesses, setOwnedBusinesses] = useState([]);
     const [currentBusiness, setCurrentBusiness] = useState(null);
     const selectedCard = localStorage.getItem('selectedCard');
-    const { playerBalance, deductFromWallet } = useWallet();
+    const { playerBalance, deductFromWallet, depositToWallet } = useWallet();
     const { depositToBank } = useBank();
+
+    useEffect(() => {
+        console.log('Updated player balance:', playerBalance);
+    }, [playerBalance]);
 
     const handleBackToHome = () => {
         localStorage.removeItem('selectedCard');
@@ -54,7 +58,7 @@ const GameBoard = () => {
         const newPosition = result.position;
 
         if (result.passedGo) {
-            deductFromWallet(50); // Pridedame 50 Travelon'ų
+            depositToWallet(50); // Pridedame 50 Travelon'ų
         }
 
         moveCardToNewPosition(newPosition);
@@ -135,8 +139,10 @@ const GameBoard = () => {
 
     const moveCardToNewPosition = (newPosition) => {
         handleCardLanding(newPosition.toString());
-        if (newPosition === 18 && playerPosition < 18) {
-            deductFromWallet(50); // Pridedame 50 Travelon'ų kai žaidėjas baigia ratą
+        console.log('New position:', newPosition, 'Player position:', playerPosition);
+        if (newPosition >= 18 && playerPosition < 18) {
+            console.log('Triggering depositToWallet with 50');
+            depositToWallet(50); // Pridedame 50 Travelon'ų kai žaidėjas baigia ratą
         }
         setPlayerPosition(newPosition);
 
