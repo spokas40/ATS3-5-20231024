@@ -12,8 +12,8 @@ function TravelLandBank({ children }) {
 
     return (
         <BankContext.Provider value={{ bankBalance, depositToBank }}>
-            <div className="travelLandBank">
-                TravelLand Bank: {bankBalance} Travelons
+            <div>
+                {children}
             </div>
             {children}
         </BankContext.Provider>

@@ -11,6 +11,7 @@ import ballonImage from '../images/ballon.png';
 import { calculateNewPosition } from './CardMover.js';
 import PlayerWallet from "./PlayerWallet.js";
 import TravelLandBank, { useBank } from './TravelLandBank.js';
+import BankBalanceDisplay from './BankBalanceDisplay.js';
 import { useWallet } from "../WalletProvider.js";
 
 const GameBoard = () => {
@@ -183,7 +184,7 @@ const GameBoard = () => {
                     {/* 2nd row */}
                     <div className="cell cell-with-border bankBuild" data-value="18"></div>
                     <div className="cell" data-value="100">
-                        <TravelLandBank />
+                        <BankBalanceDisplay />
                     </div>
                     <div className="cell" data-value="101">
                         <PlayerWallet balance={playerBalance} />
