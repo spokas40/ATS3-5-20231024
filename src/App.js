@@ -24,7 +24,7 @@ const App = () => {
             <TravelLandBank>
                 <div className="app-container">
                     {!gameStarted ? (
-                        <Login onStartGame={() => setGameStarted(true)} />
+                        <Login onStartGame={handleStartGame} />
                     ) : (
                         <GameBoard />
                     )}
