@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Login from './components/Login.js';
 import GameBoard from './components/GameBoard.js';
-import PlayerWallet from './components/PlayerWallet.js';
 import TravelLandBank from './components/TravelLandBank.js';
 import { WalletProvider } from './WalletProvider.js';
 import './App.css';
@@ -15,8 +14,9 @@ const App = () => {
     };
 
     const handleStartGame = () => {
-        console.log("Game is starting");
+        console.log("Before starting game, gameStarted:", gameStarted);
         setGameStarted(true);
+        console.log("After starting game, gameStarted:", gameStarted);
     };
 
     return (

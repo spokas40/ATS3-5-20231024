@@ -15,7 +15,6 @@ function TravelLandBank({ children }) {
             <div>
                 {children}
             </div>
-            {children}
         </BankContext.Provider>
     );
 }

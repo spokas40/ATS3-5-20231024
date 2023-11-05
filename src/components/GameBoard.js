@@ -16,6 +16,7 @@ import { useWallet } from "../WalletProvider.js";
 import { WalletContext } from '../WalletProvider.js';
 
 const GameBoard = () => {
+    console.log('GameBoard component is being rendered');
     const [playerPosition, setPlayerPosition] = useState(0); // Initial player card position
     const [diceValue, setDiceValue] = useState(0);
     const [ownedBusinesses, setOwnedBusinesses] = useState([]);
