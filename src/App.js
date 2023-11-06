@@ -3,6 +3,7 @@ import Login from './components/Login.js';
 import GameBoard from './components/GameBoard.js';
 import TravelLandBank from './components/TravelLandBank.js';
 import { WalletProvider } from './WalletProvider.js';
+import { PlayerProvider } from './context/PlayerContext.js'
 import './App.css';
 
 const App = () => {
@@ -20,17 +21,19 @@ const App = () => {
     };
 
     return (
-        <WalletProvider>
-            <TravelLandBank>
-                <div className="app-container">
-                    {!gameStarted ? (
-                        <Login onStartGame={handleStartGame} />
-                    ) : (
-                        <GameBoard />
-                    )}
-                </div>
-            </TravelLandBank>
-        </WalletProvider>
+        <PlayerProvider>
+             <WalletProvider>
+                <TravelLandBank>
+                    <div className="app-container">
+                        {!gameStarted ? (
+                            <Login onStartGame={handleStartGame} />
+                             ) : (
+                            <GameBoard />
+                        )}
+                    </div>
+                </TravelLandBank>
+            </WalletProvider>
+        </PlayerProvider>
     );
 };
 

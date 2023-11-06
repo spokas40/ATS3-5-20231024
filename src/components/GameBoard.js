@@ -12,6 +12,7 @@ import { calculateNewPosition } from './CardMover.js';
 import PlayerWallet from "./PlayerWallet.js";
 import TravelLandBank, { useBank } from './TravelLandBank.js';
 import BankBalanceDisplay from './BankBalanceDisplay.js';
+import { usePlayer } from '../context/PlayerContext.js';
 import { useWallet } from "../WalletProvider.js";
 import { WalletContext } from '../WalletProvider.js';
 
@@ -24,6 +25,7 @@ const GameBoard = () => {
     const selectedCard = localStorage.getItem('selectedCard');
     const { playerBalance, deductFromWallet, depositToWallet } = useWallet();
     const { depositToBank } = useBank();
+    const { currentPlayer, setCurrentPlayer } = usePlayer();
 
 
     const handleBackToHome = () => {
@@ -63,76 +65,106 @@ const GameBoard = () => {
         moveCardToNewPosition(newPosition);
     };
 
+    const businessProperties = {
+        "2": { name: "Seaport", purchasePrice: 200, tax: 0.2 , sellPrice: 160, ownedBy: null },
+        "3": { name: "Railway Station", purchasePrice: 300, tax: 0.3 , sellPrice: 240, ownedBy: null },
+        "4": { name: "Warehouse", purchasePrice: 2000, tax: 2, sellPrice: 1600, ownedBy: null },
+        "5": { name: "Camping Equipment", purchasePrice: 1000, tax: 1, sellPrice: 800, ownedBy: null },
+        "6": { name: "Free space for your ideas", purchasePrice: 1000, tax: 1, sellPrice: 800, ownedBy: null },
+        "7": { name: "Museum of History", purchasePrice: 500, tax: 0.5, sellPrice: 400, ownedBy: null },
+        "8": { name: "Free space for your ideas", purchasePrice: 1000, tax: 1, sellPrice: 800, ownedBy: null },
+        "9": { name: "Goldmine", purchasePrice: 10000, tax: 1, sellPrice: 8000, ownedBy: null },
+        "10": { name: "Goldmine", purchasePrice: 1000, tax: 1, sellPrice: 8000, ownedBy: null },
+        "11": { name: "Railway Station", purchasePrice: 300, tax: 0.3 , sellPrice: 240, ownedBy: null },
+        "12": { name: "Arab Bazar", purchasePrice: 2000, tax: 2 , sellPrice: 1600, ownedBy: null },
+        "13": { name: "Seaport", purchasePrice: 200, tax: 0.2 , sellPrice: 160, ownedBy: null },
+        "14": { name: "Free space for your ideas", purchasePrice: 1000, tax: 1, sellPrice: 800, ownedBy: null },
+        "15": { name: "Repair Shop", purchasePrice: 2000, tax: 2, sellPrice: 1600, ownedBy: null },
+        "16": { name: "Free space for your ideas", purchasePrice: 1000, tax: 1, sellPrice: 800, ownedBy: null },
+        "17": { name: "Metal Factory", purchasePrice: 500, tax: 0.5, sellPrice: 400, ownedBy: null },
+
+    };
+
     function handleCardLanding(cellValue) {
-        let businessType = null;
-        switch (cellValue) {
-            case "2":
-            case "13":
-                // Seaport
-                deductFromWallet(2);
-                depositToBank(2);
-                businessType = 'Seaport';
-                break;
+        const business = businessProperties[cellValue];
+        if (business) {
+            if (business.ownedBy === null) {
+                // Logika pirkti verslą
+            } else if (business.ownedBy === currentPlayer) {
+                // Logika parduoti verslą
+            } else {
+                // Mokėti mokestį verslo savininkui
+                deductFromWallet(business.tax);
+                depositToBank(business.tax, business.ownedBy); // Čia reikėtų pridėti logiką, kaip pervesti mokestį verslo savininkui
+            }
+        } else {
+            // Esama logika, kuri buvo prieš tai
+            switch (cellValue) {
+                case "2":
+                case "13":
+                    // Seaport
+                    deductFromWallet(2);
+                    depositToBank(2);
+                    break;
 
-            case "4":
-                // Warehouse
-                deductFromWallet(20);
-                depositToBank(20);
-                businessType = 'Warehouse';
-                break;
+                case "4":
+                    // Warehouse
+                    deductFromWallet(20);
+                    depositToBank(20);
+                    break;
 
-            case "5":
-                // campingEquipment
-                deductFromWallet(10);
-                depositToBank(10);
-                break;
+                case "5":
+                    // campingEquipment
+                    deductFromWallet(10);
+                    depositToBank(10);
+                    break;
 
-            case "7":
-                // museumOfHistory
-                deductFromWallet(5);
-                depositToBank(5);
-                break;
+                case "7":
+                    // museumOfHistory
+                    deductFromWallet(5);
+                    depositToBank(5);
+                    break;
 
-            case "9":
-                // Goldmine
-                deductFromWallet(10);
-                depositToBank(10);
-                break;
+                case "9":
+                    // Goldmine
+                    deductFromWallet(10);
+                    depositToBank(10);
+                    break;
 
-            case "10":
-                // Hotel
-                deductFromWallet(10);
-                depositToBank(10);
-                break;
+                case "10":
+                    // Hotel
+                    deductFromWallet(10);
+                    depositToBank(10);
+                    break;
 
-            case "12":
-                // arabBazar
-                deductFromWallet(20);
-                depositToBank(20);
-                break;
+                case "12":
+                    // arabBazar
+                    deductFromWallet(20);
+                    depositToBank(20);
+                    break;
 
-            case "3":
-            case "11":
-                // Railway Station
-                deductFromWallet(3);
-                depositToBank(3);
-                businessType = 'Railway';
-                break;
+                case "3":
+                case "11":
+                    // Railway Station
+                    deductFromWallet(3);
+                    depositToBank(3);
+                    break;
 
-            case "15":
-                // remoteWorkshop
-                deductFromWallet(20);
-                depositToBank(20);
-                break;
+                case "15":
+                    // remoteWorkshop
+                    deductFromWallet(20);
+                    depositToBank(20);
+                    break;
 
-            case "17":
-                // Metallurgy
-                deductFromWallet(5);
-                depositToBank(5);
-                break;
+                case "17":
+                    // Metallurgy
+                    deductFromWallet(5);
+                    depositToBank(5);
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
     }
 
